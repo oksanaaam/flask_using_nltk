@@ -35,35 +35,50 @@ ner_model = api.model('NER', {
 class Tokenize(Resource):
     @ns.expect(token_model)
     def post(self):
-        data = request.get_json()
-        text = data.get('text', '')
-        tokens = word_tokenize(text)
-        return jsonify(tokens)
+        try:
+            data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
+            text = data.get('text', '')
+            tokens = word_tokenize(text)
+            return jsonify(tokens)
+        except Exception as e:
+            return {'error': str(e)}, 400
 
 
 @ns.route('/pos_tag')
 class POSTag(Resource):
     @ns.expect(pos_tag_model)
     def post(self):
-        data = request.get_json()
-        text = data.get('text', '')
-        tokens = word_tokenize(text)
-        pos_tags = pos_tag(tokens)
-        return jsonify(pos_tags)
+        try:
+            data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
+            text = data.get('text', '')
+            tokens = word_tokenize(text)
+            pos_tags = pos_tag(tokens)
+            return jsonify(pos_tags)
+        except Exception as e:
+            return {'error': str(e)}, 400
 
 
 @ns.route('/ner')
 class NER(Resource):
     @ns.expect(ner_model)
     def post(self):
-        data = request.get_json()
-        text = data.get('text', '')
-        tokens = word_tokenize(text)
-        pos_tags = pos_tag(tokens)
-        chunks = ne_chunk(pos_tags)
-        entities = [{'word': ' '.join(c[0] for c in chunk), 'label': chunk.label()}
-                    for chunk in chunks if hasattr(chunk, 'label')]
-        return jsonify(entities)
+        try:
+            data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
+            text = data.get('text', '')
+            tokens = word_tokenize(text)
+            pos_tags = pos_tag(tokens)
+            chunks = ne_chunk(pos_tags)
+            entities = [{'word': ' '.join(c[0] for c in chunk), 'label': chunk.label()}
+                        for chunk in chunks if hasattr(chunk, 'label')]
+            return jsonify(entities)
+        except Exception as e:
+            return {'error': str(e)}, 400
 
 
 # Add namespace to API
