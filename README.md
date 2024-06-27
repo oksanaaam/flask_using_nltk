@@ -42,7 +42,8 @@ The server will start running at http://127.0.0.1:5000/.
 
 ## API Endpoints
 
-To test all the endpoints of your REST API, you can use an API testing tool like Postman or curl.
+To test all the endpoints of your REST API, you can use an API testing tool like Postman or curl.  
+For running tests you can use `python -m unittest tests/test_api.py`
 
 ### Tokenize Text
 URL: /nlp/tokenize
