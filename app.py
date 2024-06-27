@@ -37,6 +37,8 @@ class Tokenize(Resource):
     def post(self):
         try:
             data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
             text = data.get('text', '')
             tokens = word_tokenize(text)
             return jsonify(tokens)
@@ -50,6 +52,8 @@ class POSTag(Resource):
     def post(self):
         try:
             data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
             text = data.get('text', '')
             tokens = word_tokenize(text)
             pos_tags = pos_tag(tokens)
@@ -64,6 +68,8 @@ class NER(Resource):
     def post(self):
         try:
             data = request.get_json()
+            if not data or 'text' not in data:
+                raise ValueError("Missing 'text' field")
             text = data.get('text', '')
             tokens = word_tokenize(text)
             pos_tags = pos_tag(tokens)
